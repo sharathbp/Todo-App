@@ -16,7 +16,7 @@ public class Users {
     private String name;
     private String email;
     private String password;
-    @OneToMany(cascade = {CascadeType.MERGE}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private Collection<Tasks> tasks = new ArrayList<Tasks>();
 
     public Users() {

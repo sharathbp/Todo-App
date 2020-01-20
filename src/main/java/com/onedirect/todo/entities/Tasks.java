@@ -12,10 +12,10 @@ public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "userId")
     private int id;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="category_id")
     private Categories category;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="user_id")
     private Users user;
     private String title;
