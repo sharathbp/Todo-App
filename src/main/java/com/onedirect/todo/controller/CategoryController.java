@@ -9,10 +9,7 @@ import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +19,21 @@ import java.util.Optional;
 public class CategoryController {
     @Autowired
     private CategoriesRepository categoriesRepository;
-    private CategoryService categoryService = new CategoryService();
+    @Autowired
+    private CategoryService categoryService;
+
+    @PostMapping
+    public CategoriesDto addCategory(@RequestBody CategoriesDto categoriesDto){ return categoryService.addCategory(categoriesDto); }
 
     @GetMapping("/all")
-    public Iterable<Categories> getCategories(){
-        return categoriesRepository.findAll();
-    }
+    public List<CategoriesDto> getCategories(){ return categoryService.getAllCategories(); }
 
     @GetMapping("/{id}")
-    public Optional<Categories> getCategoryById(@PathVariable("id") int id){
-        return categoriesRepository.findById(id);
-    }
+    public CategoriesDto getCategoryById(@PathVariable("id") int id){ return categoryService.getCategory(id); }
+
+    @PutMapping("/{id}")
+    public CategoriesDto updateCategories(int id, @RequestBody CategoriesDto categoriesDto){ return categoryService.updateCategory(id, categoriesDto); }
+
+    @DeleteMapping("/{id}")
+    public CategoriesDto deleteCategories(int id){ return categoryService.deleteCategory(id); }
 }

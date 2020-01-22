@@ -1,5 +1,6 @@
 package com.onedirect.todo.controller;
 
+import com.onedirect.todo.dto.TasksDto;
 import com.onedirect.todo.entities.Categories;
 import com.onedirect.todo.entities.Tasks;
 import com.onedirect.todo.entities.Users;
@@ -8,6 +9,8 @@ import com.onedirect.todo.enums.StatusEnum;
 import com.onedirect.todo.repositories.CategoriesRepository;
 import com.onedirect.todo.repositories.TasksRepository;
 import com.onedirect.todo.repositories.UsersRepository;
+import com.onedirect.todo.services.TaskService;
+import com.onedirect.todo.services.UserService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -21,36 +24,44 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import java.beans.Transient;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/task")
 public class TaskController {
     @Autowired
-    private TasksRepository taskRepo;
+    private TaskService taskService;
     @Autowired
-    private UsersRepository userRepo;
-    @Autowired
-    private CategoriesRepository catRepo;
+    private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<String> getStatus(){
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
+    @PostMapping
+    public TasksDto addTask(@RequestBody TasksDto tasksDto){
+        return taskService.addTasks(tasksDto);
+    }
 
+    @GetMapping("/tid/{id}")
+    public TasksDto getTask(@PathVariable("id") int id){
+        return taskService.getTasks(id);
+    }
 
+    @GetMapping("/uid/{id}")
+    public List<TasksDto> getAllTasks(@PathVariable("id") int id){
+        return userService.getTasksByUser(id);
+    }
 
-    @PostMapping("/add")
-    public String addTask(@RequestBody Tasks){
-        Users user = new Users(403,"ajay", "ajay10@gmail.com", "passwd");
-        Categories cat = new Categories(0,"wishlist");
-        Tasks task = new Tasks(cat, user,"title2 updated", "desc2 updated", StatusEnum.COMPLETE, PriorityEnum.NO_PRIORITY, new Date());
-        user.getTasks().add(task);
-
-
-
-
-        return "Success";
+    @PutMapping("/{id}")
+    public TasksDto updateTask(@PathVariable("id") int id, @RequestBody TasksDto tasksDto){
+        return taskService.updateTasks(id, tasksDto);
+    }
+    @DeleteMapping("/{id}")
+    public TasksDto deleteTask(@PathVariable("id") int id){
+        return taskService.deleteTask(id);
     }
 
 }

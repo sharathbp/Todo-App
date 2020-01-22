@@ -11,7 +11,7 @@ import java.util.Date;
 public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "userId")
-    private int id;
+    private Integer id;
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="category_id")
     private Categories category;
@@ -46,11 +46,11 @@ public class Tasks {
         this.due_date = due_date;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -108,5 +108,19 @@ public class Tasks {
 
     public void setDue_date(Date due_date) {
         this.due_date = due_date;
+    }
+
+    @Override
+    public String toString() {
+        return "Tasks{" +
+                "id=" + id +
+                ", category=" + category +
+                ", user=" + user +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", due_date=" + due_date +
+                '}';
     }
 }

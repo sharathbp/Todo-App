@@ -9,6 +9,7 @@ public class Categories {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "categoryId")
     private int id;
     private String category;
+    private int present;
 
     public Categories() {
     }
@@ -38,4 +39,19 @@ public class Categories {
         this.category = category;
     }
 
+    public int getPresent() {
+        return present;
+    }
+
+    public void setPresent(int present) {
+        this.present = present;
+    }
+
+    @Override
+    public String toString() {
+        return "Categories{" +
+                "id=" + id +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

@@ -16,13 +16,17 @@ public class Users {
     private String name;
     private String email;
     private String password;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "user")
     private Collection<Tasks> tasks = new ArrayList<Tasks>();
+    @ManyToMany
+    private Collection<Categories> categories = new ArrayList<>();
+    private int status = 1;
 
     public Users() {
     }
 
     public Users(int id, String name, String email, String password) {
+        this.id=id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -79,5 +83,32 @@ public class Users {
 
     public void setTasks(Collection<Tasks> tasks) {
         this.tasks = tasks;
+    }
+
+    public Collection<Categories> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<Categories> categories) {
+        this.categories = categories;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", tasks=" + tasks +
+                '}';
     }
 }
